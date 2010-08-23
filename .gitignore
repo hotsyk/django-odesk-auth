@@ -1,0 +1,15 @@
+*.*~
+*.db
+*.log
+*.pyc
+*.swo
+*.swp
+*.vim
+bin/*
+include/*
+lib/*
+src/*
+.project
+.pydevproject
+local_settings.py
+ticketglue/coverage_report

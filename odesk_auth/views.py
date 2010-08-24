@@ -2,7 +2,7 @@ from django.contrib import auth
 from django.contrib.auth.models import AnonymousUser
 from django.conf import settings
 from django.http import HttpResponseRedirect
-
+from django.contrib.auth import logout
 
 def login(request):
     if 'odesk_api_token' in request.session:
@@ -37,6 +37,6 @@ def logout(request):
         del request.session['odesk_api_token']
     request.odesk_client.auth.revoke_token()
     if request.user.is_authenticated():
-        request.user.logout()
+        logout(request)
     return HttpResponseRedirect(request.odesk_client.auth.auth_url())
     

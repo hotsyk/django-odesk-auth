@@ -32,11 +32,14 @@ def callback(request, redirect_url=None):
         return HttpResponseRedirect(request.odesk_client.auth.auth_url())
     
 
-def logout(request):
+def logout(request, redirect_url=None):
     if 'odesk_api_token' in request.session:
         del request.session['odesk_api_token']
     request.odesk_client.auth.revoke_token()
     if request.user.is_authenticated():
         django_logout(request)
-    return HttpResponseRedirect(request.odesk_client.auth.auth_url())
+    redirect_url = request.session.pop('odesk_redirect_url', redirect_url)
+    if not redirect_url:
+        redirect_url = getattr(settings, 'LOGIN_REDIRECT_URL', '/')          
+    return HttpResponseRedirect(redirect_url)
     

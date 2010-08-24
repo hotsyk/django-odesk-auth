@@ -30,3 +30,11 @@ def callback(request, redirect_url=None):
     
     else:
         return HttpResponseRedirect(request.odesk_client.auth.auth_url())
+    
+
+def logout(request):
+    if 'odesk_api_token' in request.session:
+        del request.session['odesk_api_token']
+    request.odesk_client.revoke_token()
+    return HttpResponseRedirect(request.odesk_client.auth.auth_url())
+    

@@ -36,5 +36,7 @@ def logout(request):
     if 'odesk_api_token' in request.session:
         del request.session['odesk_api_token']
     request.odesk_client.auth.revoke_token()
+    if request.user.is_authenticated():
+        request.user.logout()
     return HttpResponseRedirect(request.odesk_client.auth.auth_url())
     
